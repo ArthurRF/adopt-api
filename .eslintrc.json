@@ -41,6 +41,7 @@
     "no-continue": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "import/prefer-default-export": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.ts", "jest.config.js"]}],
     "@typescript-eslint/naming-convention": [
       "error",
