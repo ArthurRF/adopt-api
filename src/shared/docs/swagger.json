@@ -1,0 +1,112 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AdoptAPI Documentation",
+    "description": "This is an API for adoptiom, an project to help dogs and cats to find a new home!<hr>",
+    "version": "1.0.0",
+    "contact": {
+      "email": "arthuur.fronza2011@gmail.com"
+    }
+  },
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/pets": {
+      "get": {
+        "tags": [
+          "Pets"
+        ],
+        "summary": "List all pets",
+        "description": "List all the pets registered",
+        "responses": {
+          "200": {
+            "description": "Pets list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/definitions/Pet"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Pet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "required": true
+        },
+        "name": {
+          "type": "string",
+          "required": true
+        },
+        "description": {
+          "type": "string",
+          "required": false
+        },
+        "sexing": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "F",
+            "M"
+          ]
+        },
+        "size": {
+          "type": "string",
+          "required": false,
+          "enum": [
+            "S",
+            "M",
+            "L"
+          ]
+        },
+        "castrated": {
+          "type": "boolean",
+          "required": false
+        },
+        "views": {
+          "type": "integer",
+          "required": true
+        },
+        "age": {
+          "type": "integer",
+          "required": false
+        },
+        "adopted_at": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "required": true
+        },
+        "status": {
+          "type": "integer",
+          "required": true,
+          "enum": [
+            200,
+            201,
+            400,
+            401,
+            404,
+            500
+          ]
+        }
+      }
+    }
+  }
+}

@@ -7,6 +7,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import { AppError } from '@shared/errors/app.error';
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '@shared/docs/swagger.json';
 import routes from './routes';
 
 const app = express();
@@ -22,6 +24,9 @@ app.disable('x-powered-by');
 app.use(cors());
 app.use(routes);
 
+/**
+ * When wanting to use a session config
+ */
 // app.use(
 //   session({
 //     secret: process.env.SESSION_SECRET as string,
@@ -30,6 +35,8 @@ app.use(routes);
 //     resave: false,
 //   })
 // );
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
