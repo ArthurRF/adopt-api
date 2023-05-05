@@ -1,13 +1,13 @@
 import { Router } from 'express';
+
+import { inversifyContainer } from '@shared/infra/containers/inversify.config';
+import { PetsController } from '@modules/pets/controllers/pets.controller';
 import { RateLimiterMiddleware } from '../middlewares/rate-limiter.middleware';
-// import { container } from 'tsyringe';
 
-// import { CreatePetController } from "@modules/pets/controllers/CreatePetController";
-
-// const createPetController = container.resolve(CreatePetController);
+const petsController = inversifyContainer.get(PetsController);
 
 const petsRoutes = Router();
 
-petsRoutes.get('/', RateLimiterMiddleware, (req, res) => res.send(['animais']));
+petsRoutes.get('/', RateLimiterMiddleware, petsController.list);
 
 export { petsRoutes };
