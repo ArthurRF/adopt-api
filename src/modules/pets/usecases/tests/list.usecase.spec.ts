@@ -7,7 +7,7 @@ describe('ListPetsUseCase', () => {
     listPetsUseCase = new ListPetsUseCase();
   });
 
-  it('Should be defined', () => {
+  it('should be defined', () => {
     expect(listPetsUseCase).toBeDefined();
   });
 });
