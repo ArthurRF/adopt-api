@@ -1,4 +1,4 @@
-import { ListPetsUseCase } from './list.usecase';
+import { ListPetsUseCase } from '../list.usecase';
 
 let listPetsUseCase: ListPetsUseCase;
 
