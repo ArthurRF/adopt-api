@@ -1,10 +1,10 @@
 import { Router } from 'express';
+import { Container } from 'typedi';
 
-import { inversifyContainer } from '@shared/infra/containers/inversify.config';
 import { PetsController } from '@modules/pets/controllers/pets.controller';
 import { RateLimiterMiddleware } from '../middlewares/rate-limiter.middleware';
 
-const petsController = inversifyContainer.get(PetsController);
+const petsController = Container.get(PetsController);
 
 const petsRoutes = Router();
 

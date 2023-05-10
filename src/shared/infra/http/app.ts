@@ -38,6 +38,10 @@ app.use(routes);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+process.on('SIGTERM', () => {
+  process.exit(0);
+});
+
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
     if (error instanceof AppError) {

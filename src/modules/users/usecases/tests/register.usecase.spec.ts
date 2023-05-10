@@ -4,7 +4,9 @@ let registerUserUsecase: RegisterUserUseCase;
 
 describe('RegisterUserUseCase', () => {
   beforeEach(() => {
-    registerUserUsecase = new RegisterUserUseCase();
+    registerUserUsecase = new RegisterUserUseCase({
+      create: jest.fn(),
+    });
   });
 
   it('should be defined', () => {

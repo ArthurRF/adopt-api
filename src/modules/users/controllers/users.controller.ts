@@ -1,14 +1,19 @@
-import { inversifyContainer } from '@shared/infra/containers/inversify.config';
 import { Request, Response } from 'express';
-import { injectable } from 'inversify';
+
+import { Service, Container } from 'typedi';
 import { RegisterUserUseCase } from '../usecases/register.usecase';
 
-@injectable()
+@Service()
 export class UsersController {
   async register(req: Request, res: Response): Promise<Response> {
-    const registerUserUsecase = inversifyContainer.get(RegisterUserUseCase);
+    const registerUserUsecase = Container.get(RegisterUserUseCase);
 
-    const registeredUser = await registerUserUsecase.execute();
+    const { email, password } = req.body;
+
+    const registeredUser = await registerUserUsecase.execute({
+      email,
+      password,
+    });
 
     return res.status(200).json(registeredUser);
   }

@@ -3,11 +3,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2016",
-    "lib": ["ES2016"],
+    "lib": ["ES2015", "ES2016", "DOM"],
     "outDir": "./build",
     "rootDirs": ["./src", "__test__"],
     "strict": true,
     "esModuleInterop": true,
+    "noEmit": true,
     "allowJs": true,
     "moduleResolution": "node",
     "skipLibCheck": true,

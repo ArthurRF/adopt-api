@@ -1,8 +1,25 @@
-import { injectable } from 'inversify';
+import { Inject, Service } from 'typedi';
+import { User } from '@prisma/client';
+import { UsersRepository } from '../repositories/implementations/users.repository';
 
-@injectable()
+interface IProps {
+  email: string;
+  password: string;
+}
+
+@Service()
 export class RegisterUserUseCase {
-  async execute(): Promise<any> {
-    return {};
+  constructor(
+    @Inject()
+    private usersRepository: UsersRepository
+  ) {}
+
+  async execute({ email, password }: IProps): Promise<User> {
+    const userCreated = await this.usersRepository.create({
+      email,
+      password,
+    });
+
+    return userCreated;
   }
 }
