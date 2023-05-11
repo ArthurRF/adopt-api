@@ -21,7 +21,7 @@ describe('FindUserByEmailUseCase', () => {
     const user: User = {
       id: 1,
       email: 'john@doe.com',
-      password: 'aff',
+      password: 'pass',
       created_at: currentDate,
       updated_at: currentDate,
     };
@@ -35,7 +35,7 @@ describe('FindUserByEmailUseCase', () => {
     expect(userFound).toEqual({
       id: 1,
       email: 'john@doe.com',
-      password: 'aff',
+      password: 'pass',
       created_at: currentDate,
       updated_at: currentDate,
     });
