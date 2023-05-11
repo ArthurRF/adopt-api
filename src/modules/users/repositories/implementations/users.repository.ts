@@ -15,4 +15,12 @@ export class UsersRepository implements IUsersRepository {
       },
     });
   }
+
+  public async findByEmail(email: string): Promise<User | null> {
+    return prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+  }
 }

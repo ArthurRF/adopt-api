@@ -1,4 +1,6 @@
+import { AppError } from '@shared/errors/app.error';
 import { Inject, Service } from 'typedi';
+import { hash } from 'bcryptjs';
 import { User } from '@prisma/client';
 import { UsersRepository } from '../repositories/implementations/users.repository';
 
@@ -15,9 +17,17 @@ export class RegisterUserUseCase {
   ) {}
 
   async execute({ email, password }: IProps): Promise<User> {
+    const userAlreadyRegistered = await this.usersRepository.findByEmail(email);
+
+    if (userAlreadyRegistered) {
+      throw new AppError('Email already registered.');
+    }
+
+    const passwordHash = await hash(password, 8);
+
     const userCreated = await this.usersRepository.create({
       email,
-      password,
+      password: passwordHash,
     });
 
     return userCreated;
