@@ -2,7 +2,7 @@ import { UserToken } from '@prisma/client';
 import prisma from '@shared/infra/db-connectors/prisma';
 import { Service } from 'typedi';
 
-import { IUsersTokensRepository } from '../i-users-tokens.repository';
+import { IUsersTokensRepository } from '../interfaces/i-users-tokens.repository';
 import { ICreateUserTokenProps } from '../props/i-create-token.props';
 
 @Service({ transient: false })

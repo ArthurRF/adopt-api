@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 import prisma from '@shared/infra/db-connectors/prisma';
 import { Service } from 'typedi';
 
-import { IUsersRepository } from '../i-users.repository';
+import { IUsersRepository } from '../interfaces/i-users.repository';
 import { ICreateUserProps } from '../props/i-create.props';
 
 @Service({ transient: false })

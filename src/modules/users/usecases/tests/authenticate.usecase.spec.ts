@@ -1,7 +1,7 @@
 import { UsersRepository } from '@modules/users/repositories/implementations/users.repository';
 import { UsersTokensRepository } from '@modules/users/repositories/implementations/users-tokens.repository';
-import { IUsersRepository } from '@modules/users/repositories/i-users.repository';
-import { IUsersTokensRepository } from '@modules/users/repositories/i-users-tokens.repository';
+import { IUsersRepository } from '@modules/users/repositories/interfaces/i-users.repository';
+import { IUsersTokensRepository } from '@modules/users/repositories/interfaces/i-users-tokens.repository';
 import { ICreateUserProps } from '@modules/users/repositories/props/i-create.props';
 import { AppError } from '@shared/errors/app.error';
 import { RegisterUserUseCase } from '../register.usecase';

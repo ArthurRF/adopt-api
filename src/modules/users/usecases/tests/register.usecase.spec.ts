@@ -1,5 +1,5 @@
 import { UsersRepository } from '@modules/users/repositories/implementations/users.repository';
-import { IUsersRepository } from '@modules/users/repositories/i-users.repository';
+import { IUsersRepository } from '@modules/users/repositories/interfaces/i-users.repository';
 import { AppError } from '@shared/errors/app.error';
 import { RegisterUserUseCase } from '../register.usecase';
 
