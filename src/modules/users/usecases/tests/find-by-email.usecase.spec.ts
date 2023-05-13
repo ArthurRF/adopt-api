@@ -1,14 +1,16 @@
-import { User } from '@prisma/client';
-import { prismaMock } from '@shared/infra/db-connectors/prisma-mock';
 import { UsersRepository } from '@modules/users/repositories/implementations/users.repository';
+import { ICreateUserProps } from '@modules/users/repositories/props/i-create.props';
 import { FindUserByEmailUseCase } from '../find-by-email.usecase';
+import { RegisterUserUseCase } from '../register.usecase';
 
 let usersRepository: UsersRepository;
+let registerUserUseCase: RegisterUserUseCase;
 let findUserByEmailUseCase: FindUserByEmailUseCase;
 
 describe('FindUserByEmailUseCase', () => {
   beforeEach(() => {
     usersRepository = new UsersRepository();
+    registerUserUseCase = new RegisterUserUseCase(usersRepository);
     findUserByEmailUseCase = new FindUserByEmailUseCase(usersRepository);
   });
 
@@ -17,35 +19,22 @@ describe('FindUserByEmailUseCase', () => {
   });
 
   it('should find an user with existent email', async () => {
-    const currentDate = new Date();
-    const user: User = {
-      id: 1,
-      email: 'john@doe.com',
-      password: 'pass',
-      created_at: currentDate,
-      updated_at: currentDate,
+    const user: ICreateUserProps = {
+      email: 'rosalia@nitzsche.com',
+      password: 'mockpass',
     };
-
-    prismaMock.user.findUnique.mockResolvedValue(user);
+    await registerUserUseCase.execute(user);
 
     const userFound = await findUserByEmailUseCase.execute({
-      email: 'john@doe.com',
+      email: user.email,
     });
 
-    expect(userFound).toEqual({
-      id: 1,
-      email: 'john@doe.com',
-      password: 'pass',
-      created_at: currentDate,
-      updated_at: currentDate,
-    });
+    expect(userFound).toHaveProperty('id');
   });
 
   it('should return null for email not registered', async () => {
-    prismaMock.user.findUnique.mockResolvedValue(null);
-
     const userFound = await findUserByEmailUseCase.execute({
-      email: 'john@doe.com',
+      email: 'dawn@lindgren.com',
     });
 
     expect(userFound).toEqual(null);

@@ -20,7 +20,7 @@ export class RegisterUserUseCase {
     const userAlreadyRegistered = await this.usersRepository.findByEmail(email);
 
     if (userAlreadyRegistered) {
-      throw new AppError('Email already registered.');
+      throw new AppError('E-mail já registrado.');
     }
 
     const passwordHash = await hash(password, 8);

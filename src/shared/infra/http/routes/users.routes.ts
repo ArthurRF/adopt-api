@@ -10,5 +10,6 @@ const usersController = Container.get(UsersController);
 const usersRoutes = Router();
 
 usersRoutes.post('/register', RateLimiterMiddleware, usersController.register);
+usersRoutes.post('/login', RateLimiterMiddleware, usersController.login);
 
 export { usersRoutes };

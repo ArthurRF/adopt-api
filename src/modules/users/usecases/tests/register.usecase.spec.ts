@@ -1,9 +1,9 @@
-import { User } from '@prisma/client';
-import { prismaMock } from '@shared/infra/db-connectors/prisma-mock';
 import { UsersRepository } from '@modules/users/repositories/implementations/users.repository';
+import { IUsersRepository } from '@modules/users/repositories/i-users.repository';
+import { AppError } from '@shared/errors/app.error';
 import { RegisterUserUseCase } from '../register.usecase';
 
-let usersRepository: UsersRepository;
+let usersRepository: IUsersRepository;
 let registerUserUseCase: RegisterUserUseCase;
 
 describe('RegisterUserUseCase', () => {
@@ -17,35 +17,26 @@ describe('RegisterUserUseCase', () => {
   });
 
   it('should create a new user', async () => {
-    const currentDate = new Date();
-    const user: User = {
-      id: 1,
-      email: 'john@doe.com',
-      password: 'pass',
-      created_at: currentDate,
-      updated_at: currentDate,
-    };
-
-    prismaMock.user.create.mockResolvedValue(user);
-
     const userCreated = await registerUserUseCase.execute({
-      email: 'john@doe.com',
-      password: 'pass',
+      email: 'steve@blick.com',
+      password: 'mockpass',
     });
 
-    expect(userCreated).toEqual(user);
+    expect(userCreated).toHaveProperty('id');
   });
 
   it('should not create a user with duplicated email', async () => {
-    prismaMock.user.create.mockImplementationOnce(() => {
-      throw new Error('duplicated key');
+    const emailMock = 'elsie@lueilwitz.com';
+    await registerUserUseCase.execute({
+      email: emailMock,
+      password: 'mockpass',
     });
 
-    const createUserPromise = registerUserUseCase.execute({
-      email: 'john@doe.com',
-      password: 'pass',
-    });
-
-    await expect(createUserPromise).rejects.toThrow('duplicated key');
+    await expect(
+      registerUserUseCase.execute({
+        email: emailMock,
+        password: 'aleatorypass',
+      })
+    ).rejects.toEqual(new AppError('E-mail já registrado.'));
   });
 });
