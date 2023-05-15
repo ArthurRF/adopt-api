@@ -4,8 +4,8 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import auth from '@config/auth';
 import dayjs from 'dayjs';
-import { UsersRepository } from '../repositories/implementations/users.repository';
-import { UsersTokensRepository } from '../repositories/implementations/users-tokens.repository';
+import { IUsersRepository } from '../repositories/interfaces/i-users.repository';
+import { IUsersTokensRepository } from '../repositories/interfaces/i-users-tokens.repository';
 
 interface IProps {
   email: string;
@@ -23,10 +23,10 @@ interface IResponse {
 @Service()
 export class AuthenticateUserUseCase {
   constructor(
-    @Inject()
-    private usersRepository: UsersRepository,
-    @Inject()
-    private usersTokensRepository: UsersTokensRepository
+    @Inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+    @Inject('UsersTokensRepository')
+    private usersTokensRepository: IUsersTokensRepository
   ) {}
 
   async execute({ email, password }: IProps): Promise<IResponse> {

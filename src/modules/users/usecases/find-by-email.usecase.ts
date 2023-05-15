@@ -1,6 +1,6 @@
 import { Inject, Service } from 'typedi';
 import { User } from '@prisma/client';
-import { UsersRepository } from '../repositories/implementations/users.repository';
+import { IUsersRepository } from '../repositories/interfaces/i-users.repository';
 
 interface IProps {
   email: string;
@@ -9,8 +9,8 @@ interface IProps {
 @Service()
 export class FindUserByEmailUseCase {
   constructor(
-    @Inject()
-    private usersRepository: UsersRepository
+    @Inject('UsersRepository')
+    private usersRepository: IUsersRepository
   ) {}
 
   async execute({ email }: IProps): Promise<User | null> {
