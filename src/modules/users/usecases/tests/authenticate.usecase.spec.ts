@@ -23,6 +23,10 @@ describe('AuthenticateUserUseCase', () => {
     registerUserUseCase = new RegisterUserUseCase(usersRepository);
   });
 
+  it('should be defined', () => {
+    expect(authenticateUserUseCase).toBeDefined();
+  });
+
   it('should be able to authenticate an user', async () => {
     const user: ICreateUserProps = {
       email: 'taurean@halvorson.com',

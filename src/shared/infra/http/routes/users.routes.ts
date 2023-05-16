@@ -11,5 +11,10 @@ const usersRoutes = Router();
 
 usersRoutes.post('/register', RateLimiterMiddleware, usersController.register);
 usersRoutes.post('/login', RateLimiterMiddleware, usersController.login);
+usersRoutes.post(
+  '/refresh-token',
+  RateLimiterMiddleware,
+  usersController.refreshToken
+);
 
 export { usersRoutes };

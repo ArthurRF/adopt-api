@@ -49,7 +49,7 @@ export class AuthenticateUserUseCase {
       throw new AppError('E-mail ou senha incorretos.');
     }
 
-    const token = sign({}, secret_token, {
+    const token = sign({}, Buffer.from(secret_token).toString('base64'), {
       subject: userFound.id.toString(),
       expiresIn: expires_in_token,
     });
@@ -57,10 +57,11 @@ export class AuthenticateUserUseCase {
     const refreshToken = sign({ email }, secret_refresh_token, {
       subject: userFound.id.toString(),
       expiresIn: expires_in_refresh_token,
+      algorithm: 'HS256',
     });
 
     const refreshTokenExpiresDate = dayjs()
-      .add(Number(expires_refresh_token_days), 'days')
+      .add(+expires_refresh_token_days, 'days')
       .toDate();
 
     await this.usersTokensRepository.create({
