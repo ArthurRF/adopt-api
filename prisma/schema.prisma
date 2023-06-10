@@ -11,12 +11,14 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
   password   String
-  created_at DateTime    @default(now())
-  updated_at DateTime    @default(now()) @updatedAt
-  UserToken  UserToken[]
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  UserToken UserToken[]
+  Pet       Pet[]
 
   @@map("users")
 }
@@ -31,4 +33,37 @@ model UserToken {
   user User @relation(fields: [user_id], references: [id])
 
   @@map("users_tokens")
+}
+
+model Pet {
+  id                 Int      @id @default(autoincrement())
+  name               String   @db.VarChar(50)
+  description        String?  @db.Text
+  sex                PetSex?
+  size               PetSize?
+  castrated          Boolean?
+  views              Int      @default(0) @db.Integer
+  age                Int?     @db.SmallInt
+  created_by_user_id Int?
+
+  adopted_at DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+
+  creator User? @relation(fields: [created_by_user_id], references: [id])
+
+  @@map("pets")
+}
+
+enum PetSex {
+  F
+  M
+}
+
+enum PetSize {
+  SMALL
+  SMALL_MEDIUM
+  MEDIUM
+  MEDIUM_LARGE
+  LARGE
 }

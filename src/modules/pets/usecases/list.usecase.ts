@@ -1,14 +1,14 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
+import { IPetsRepository } from '../repositories/interfaces/i-pets.repository';
 
 @Service()
 export class ListPetsUseCase {
+  constructor(
+    @Inject('PetsRepository')
+    private petsRepository: IPetsRepository
+  ) {}
+
   async execute(): Promise<any> {
-    return [
-      {
-        id: 1,
-        name: 'floquinho',
-        sexing: 'M',
-      },
-    ];
+    return this.petsRepository.list();
   }
 }
