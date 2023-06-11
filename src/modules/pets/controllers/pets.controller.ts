@@ -9,11 +9,18 @@ import { CreatePetDTO } from './interfaces/i-create.dto';
 @Service()
 export class PetsController {
   async list(req: Request, res: Response): Promise<Response> {
-    const listPetsUseCase = Container.get(ListPetsUseCase);
+    try {
+      const listPetsUseCase = Container.get(ListPetsUseCase);
 
-    const pets = await listPetsUseCase.execute();
+      const pets = await listPetsUseCase.execute();
 
-    return res.status(200).json(pets);
+      return res.status(200).json(pets);
+    } catch (error: any) {
+      if (error?.message) {
+        throw new AppError(error?.message);
+      }
+      throw error;
+    }
   }
 
   async create(req: Request, res: Response): Promise<Response> {

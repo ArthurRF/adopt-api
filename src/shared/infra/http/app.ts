@@ -10,6 +10,7 @@ import helmet from 'helmet';
 import { AppError } from '@shared/errors/app.error';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '@shared/docs/swagger.json';
+import { randomUUID } from 'crypto';
 import routes from './routes';
 
 const app = express();
@@ -45,6 +46,7 @@ process.on('SIGTERM', () => {
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
+    const traceId = randomUUID();
     if (error instanceof AppError) {
       return response.status(error.statusCode).json({
         status: 'error',
@@ -52,9 +54,12 @@ app.use(
       });
     }
 
+    console.log(traceId);
+    console.log(error);
     return response.status(500).json({
       status: 'error',
       message: 'Internal server error - not treated',
+      traceId,
     });
   }
 );
