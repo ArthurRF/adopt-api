@@ -9,5 +9,6 @@ const petsController = Container.get(PetsController);
 const petsRoutes = Router();
 
 petsRoutes.get('/', RateLimiterMiddleware, petsController.list);
+petsRoutes.post('/', RateLimiterMiddleware, petsController.create);
 
 export { petsRoutes };

@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import { Container, Service } from 'typedi';
 
+import { AppError } from '@shared/errors/app.error';
 import { ListPetsUseCase } from '../usecases/list.usecase';
+import { CreatePetUseCase } from '../usecases/create.usecase';
+import { CreatePetDTO } from './interfaces/i-create.dto';
 
 @Service()
 export class PetsController {
@@ -11,5 +14,22 @@ export class PetsController {
     const pets = await listPetsUseCase.execute();
 
     return res.status(200).json(pets);
+  }
+
+  async create(req: Request, res: Response): Promise<Response> {
+    try {
+      const createPetUseCase = Container.get(CreatePetUseCase);
+
+      const body = CreatePetDTO.parse(req.body);
+
+      const createdPet = await createPetUseCase.execute(body);
+
+      return res.status(200).json(createdPet);
+    } catch (error: any) {
+      if (error?.message) {
+        throw new AppError(error?.message);
+      }
+      throw error;
+    }
   }
 }

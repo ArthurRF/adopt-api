@@ -13,12 +13,9 @@ export class UsersController {
     try {
       const registerUserUseCase = Container.get(RegisterUserUseCase);
 
-      const { email, password } = RegisterUserDTO.parse(req.body);
+      const body = RegisterUserDTO.parse(req.body);
 
-      const registeredUser = await registerUserUseCase.execute({
-        email,
-        password,
-      });
+      const registeredUser = await registerUserUseCase.execute(body);
 
       return res.status(200).json(registeredUser);
     } catch (error: any) {
@@ -33,12 +30,9 @@ export class UsersController {
     try {
       const authenticateUserUseCase = Container.get(AuthenticateUserUseCase);
 
-      const { email, password } = RegisterUserDTO.parse(req.body);
+      const body = RegisterUserDTO.parse(req.body);
 
-      const authenticatedUser = await authenticateUserUseCase.execute({
-        email,
-        password,
-      });
+      const authenticatedUser = await authenticateUserUseCase.execute(body);
 
       return res.status(200).json(authenticatedUser);
     } catch (error: any) {
