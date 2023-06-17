@@ -31,7 +31,7 @@ export class PetsController {
 
       const createdPet = await createPetUseCase.execute(body);
 
-      return res.status(200).json(createdPet);
+      return res.status(201).json(createdPet);
     } catch (error: any) {
       if (error?.message) {
         throw new AppError(error?.message);

@@ -17,7 +17,7 @@ export class UsersController {
 
       const registeredUser = await registerUserUseCase.execute(body);
 
-      return res.status(200).json(registeredUser);
+      return res.status(201).json(registeredUser);
     } catch (error: any) {
       if (error?.message) {
         throw new AppError(error?.message);
@@ -52,7 +52,7 @@ export class UsersController {
 
       const refresh_token = await refreshUserTokenUseCase.execute(token);
 
-      return res.json(refresh_token);
+      return res.status(200).json(refresh_token);
     } catch (error: any) {
       if (error?.message) {
         throw new AppError(error?.message);
