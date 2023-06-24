@@ -1,6 +1,7 @@
 import app from '@shared/infra/http/app';
 import request from 'supertest';
 import { CreatePetDTO } from '../interfaces/i-create.dto';
+import { DeleteManyPetsDTO } from '../interfaces/i-delete-many.dto';
 
 const server = request(app);
 
@@ -25,6 +26,21 @@ describe('PETS Integration Tests (PetsController)', () => {
       expect(response.status).toBe(201);
       expect(response.body).toHaveProperty('id');
       expect(response.body).toHaveProperty('name', newPet.name);
+    });
+  });
+
+  describe('DELETE /pets', () => {
+    it('should be able to delete many pets', async () => {
+      const petIds = {
+        ids: [1, 2],
+      } as (typeof DeleteManyPetsDTO)['_type'];
+
+      const response = await server
+        .delete('/pets')
+        .query({ ids: petIds.ids.join(',') })
+        .send();
+
+      expect(response.status).toBe(204);
     });
   });
 });

@@ -58,7 +58,7 @@ describe('RefreshUserTokenUseCase', () => {
   it('should not be able to refresh an invalid token', async () => {
     await expect(
       refreshUserTokenUseCase.execute('invalid token')
-    ).rejects.toThrow();
+    ).rejects.toEqual(new AppError('JWT com formato inválido ou expirado.'));
   });
 
   it('should not be able to refresh a valid token that is expired', async () => {
@@ -66,7 +66,7 @@ describe('RefreshUserTokenUseCase', () => {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsImlhdCI6MTY4NDE5OTQ5OSwiZXhwIjoxNjg0MTk5NTI5LCJzdWIiOiIyNCJ9.nH_4StkwuUU_YvdwnnOKGUlLxKRSn9pGtCzXbp6vIvE';
     await expect(
       refreshUserTokenUseCase.execute(mockExpiredJwt)
-    ).rejects.toThrow();
+    ).rejects.toEqual(new AppError('JWT com formato inválido ou expirado.'));
   });
 
   it('should not be able to refresh a valid token that does not exists', async () => {

@@ -108,14 +108,17 @@ describe('Users Integration Tests (UsersController)', () => {
       );
     });
 
-    it('should not be able to refresh a jwt malformed jwt token', async () => {
+    it('should not be able to refresh a malformed jwt token', async () => {
       const response = await server.post('/users/refresh-token').send({
         token: 'invalidToken',
       });
 
       expect(response.status).toBe(400);
       expect(response.body).toHaveProperty('status', 'error');
-      expect(response.body).toHaveProperty('message', 'jwt malformed');
+      expect(response.body).toHaveProperty(
+        'message',
+        'JWT com formato inválido ou expirado.'
+      );
     });
   });
 });

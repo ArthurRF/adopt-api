@@ -31,4 +31,14 @@ export class PetsRepository implements IPetsRepository {
       },
     });
   }
+
+  public async deleteMany(ids: number[]): Promise<void> {
+    await prisma.pet.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+  }
 }

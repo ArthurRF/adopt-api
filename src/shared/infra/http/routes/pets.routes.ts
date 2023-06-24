@@ -10,5 +10,6 @@ const petsRoutes = Router();
 
 petsRoutes.get('/', RateLimiterMiddleware, petsController.list);
 petsRoutes.post('/', RateLimiterMiddleware, petsController.create);
+petsRoutes.delete('/', RateLimiterMiddleware, petsController.delete);
 
 export { petsRoutes };

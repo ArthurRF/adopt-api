@@ -24,9 +24,22 @@ class RefreshUserTokenUseCase {
   ) {}
 
   async execute(token: string): Promise<ITokenResponse> {
-    const { email, sub } = verify(token, auth.secret_refresh_token, {
-      algorithms: ['HS256'],
-    }) as IPayLoad;
+    let email: string | undefined;
+    let sub: string | undefined;
+    try {
+      const data = verify(token, auth.secret_refresh_token, {
+        algorithms: ['HS256'],
+      }) as IPayLoad;
+
+      email = data.email;
+      sub = data.sub;
+    } catch (error) {
+      throw new AppError('JWT com formato inválido ou expirado.', 400);
+    }
+
+    if (!email || !sub) {
+      throw new AppError('Houve um erro ao validar o JWT.');
+    }
 
     const userId = sub;
 

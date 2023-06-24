@@ -11,6 +11,7 @@ import { AppError } from '@shared/errors/app.error';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '@shared/docs/swagger.json';
 import { randomUUID } from 'crypto';
+import { z } from 'zod';
 import routes from './routes';
 
 const app = express();
@@ -51,6 +52,17 @@ app.use(
       return response.status(error.statusCode).json({
         status: 'error',
         message: error.message,
+        type: 'app',
+        traceId,
+      });
+    }
+
+    if (error instanceof z.ZodError) {
+      return response.status(400).json({
+        status: 'error',
+        message: error.issues,
+        type: 'zod',
+        traceId,
       });
     }
 
@@ -59,6 +71,7 @@ app.use(
     return response.status(500).json({
       status: 'error',
       message: 'Internal server error - not treated',
+      type: 'unknown',
       traceId,
     });
   }

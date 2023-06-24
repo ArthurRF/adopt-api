@@ -1,15 +1,18 @@
 import { Inject, Service } from 'typedi';
-import { Pet } from '@prisma/client';
 import { IPetsRepository } from '../repositories/interfaces/i-pets.repository';
 
+interface IProps {
+  ids: number[];
+}
+
 @Service()
-export class ListPetsUseCase {
+export class DeletePetsUseCase {
   constructor(
     @Inject('PetsRepository')
     private petsRepository: IPetsRepository
   ) {}
 
-  async execute(): Promise<Pet[]> {
-    return this.petsRepository.list();
+  async execute({ ids }: IProps): Promise<void> {
+    await this.petsRepository.deleteMany(ids);
   }
 }
